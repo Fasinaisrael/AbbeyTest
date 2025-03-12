@@ -15,7 +15,7 @@ export default function SplashOne() {
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.title}>Welcome to Our App!</Text>
+      <Text style={styles.title}>Welcome to ABBEY BANKING!</Text>
       <Text style={styles.description}>
         Discover amazing features and enjoy a seamless experience with our app.
       </Text>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
   },
   image: {
     width: '80%',

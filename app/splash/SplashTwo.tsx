@@ -1,20 +1,35 @@
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, Image } from "react-native";
 import { useRouter } from "expo-router";
 
-export default function SplashTwo() {
+export default function SplashOne() {
   const router = useRouter();
 
-  const goToSplashThree = () => {
+  const goToSplashTwo = () => {
     router.push("/splash/SplashThree");
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Splash Screen 2</Text>
-      <Text style={styles.description}>
-        Continue to explore more features of the app!
-      </Text>
-      <Button title="Next" onPress={goToSplashThree} color="#1E90FF" />
+      <View style={styles.content}>
+        <Image
+          // source={require('@/assets/images/splash1.png')} // Ensure image exists
+          style={styles.image}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>Splash Screen Two</Text>
+        <Text style={styles.description}>
+          Discover amazing features and enjoy a seamless experience with our
+          app.
+        </Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Previous"
+          onPress={() => router.push("/splash/SplashOne")}
+          color="#FF6347"
+        />
+        <Button title="Next" onPress={goToSplashTwo} color="#4CAF50" />
+      </View>
     </View>
   );
 }
@@ -22,21 +37,41 @@ export default function SplashTwo() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingVertical: 40,
+  },
+  content: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    backgroundColor: "#F5F5F5",
+    flex: 1,
+  },
+  image: {
+    width: "80%",
+    height: 300,
+    marginBottom: 30,
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 20,
     color: "#333",
+    marginBottom: 16,
+    textAlign: "center",
   },
   description: {
     fontSize: 16,
+    color: "#666",
     textAlign: "center",
     marginBottom: 40,
-    color: "#666",
+    lineHeight: 24,
+  },
+  buttonContainer: {
+    width: "80%",
+    borderRadius: 10,
+    overflow: "hidden",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
