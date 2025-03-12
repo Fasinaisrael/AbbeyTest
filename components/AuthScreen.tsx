@@ -1,8 +1,17 @@
 // AuthScreen.tsx
-import { Image, StyleSheet, TextInput, Button, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { useState } from 'react';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native";
+import { useState } from "react";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
 interface AuthScreenProps {
   title: string;
@@ -27,13 +36,13 @@ export default function AuthScreen({
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ThemedView style={styles.innerContainer}>
           <Image
-            source={require('@/assets/images/partial-react-logo.png')}
+            source={require("@/assets/images/partial-react-logo.png")}
             style={styles.reactLogo}
           />
           <ThemedText type="title">{title}</ThemedText>
@@ -60,7 +69,7 @@ export default function AuthScreen({
                 onPress={() => setShowPassword(!showPassword)}
                 style={styles.showButton}
               >
-                <ThemedText>{showPassword ? 'Hide' : 'Show'}</ThemedText>
+                <ThemedText>{showPassword ? "Hide" : "Show"}</ThemedText>
               </TouchableOpacity>
             </ThemedView>
           )}
@@ -78,30 +87,31 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   innerContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   input: {
-    width: '100%',
+    width: "100%",
     padding: 12,
     marginVertical: 8,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 8,
     paddingRight: 50,
+    color: "white",
   },
   passwordContainer: {
-    position: 'relative',
-    width: '100%',
+    position: "relative",
+    width: "100%",
   },
   showButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 10,
-    top: '30%',
+    top: "30%",
   },
   reactLogo: {
     height: 178,
