@@ -1,39 +1,49 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { Slot, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import SplashOne from "./splash/SplashOne";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const [hasSeenSplash, setHasSeenSplash] = useState<boolean | null>(null);
+  const router = useRouter();
+
+  // ✅ Utility function to clear the splash flag
+  const clearSplashFlag = async () => {
+    try {
+      await AsyncStorage.removeItem("hasSeenSplash");
+      console.log("Splash flag removed successfully");
+    } catch (error) {
+      console.error("Error clearing splash flag:", error);
+    }
+  };
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    const checkSplashStatus = async () => {
+      try {
+        const seenSplash = await AsyncStorage.getItem("hasSeenSplash");
+        setHasSeenSplash(seenSplash ? true : false);
+      } catch (error) {
+        console.error("Error checking splash screen status:", error);
+      }
+    };
+
+    checkSplashStatus();
+  }, []);
+
+  useEffect(() => {
+    // Navigate to Splash screen if the user hasn't seen it
+    if (hasSeenSplash === false) {
+      router.replace("/splash/SplashOne");
     }
-  }, [loaded]);
+  }, [hasSeenSplash]);
 
-  if (!loaded) {
-    return null;
-  }
+  // ✅ Trigger clearSplashFlag if needed (Call this manually when required)
+  useEffect(() => {
+    clearSplashFlag(); // This will clear the storage every time the app starts
+  }, []);
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+  // Ensure no premature navigation
+  if (hasSeenSplash === null) return null;
+
+  return <Slot />;
 }
