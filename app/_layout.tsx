@@ -1,49 +1,43 @@
-import { Slot, useRouter } from "expo-router";
+// app/_layout.tsx
+import { Slot, useRouter, useRootNavigationState } from "expo-router";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SplashOne from "./splash/SplashOne";
+// import { account } from "@/utils/appwrite";
 
 export default function RootLayout() {
-  const [hasSeenSplash, setHasSeenSplash] = useState<boolean | null>(null);
   const router = useRouter();
-
-  // ✅ Utility function to clear the splash flag
-  const clearSplashFlag = async () => {
-    try {
-      await AsyncStorage.removeItem("hasSeenSplash");
-      console.log("Splash flag removed successfully");
-    } catch (error) {
-      console.error("Error clearing splash flag:", error);
-    }
-  };
+  const navigationState = useRootNavigationState(); // Ensures navigation tree is ready
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const checkSplashStatus = async () => {
+    const init = async () => {
       try {
-        const seenSplash = await AsyncStorage.getItem("hasSeenSplash");
-        setHasSeenSplash(seenSplash ? true : false);
+        // Clear session and reset splash flag
+        // await account.deleteSession("current");
+        await AsyncStorage.setItem("hasLaunched", "false");
+
+        // Check splash status after clearing session
+        const hasLaunched = await AsyncStorage.getItem("hasLaunched");
+        console.log("hasLaunched value:", hasLaunched);
+
+        // Navigate to splash screen if needed
+        if (hasLaunched !== "true") {
+          console.log("object")
+          router.replace("/splash/SplashOne");
+        }
       } catch (error) {
-        console.error("Error checking splash screen status:", error);
+        console.error("Error during initialization:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    checkSplashStatus();
-  }, []);
-
-  useEffect(() => {
-    // Navigate to Splash screen if the user hasn't seen it
-    if (hasSeenSplash === false) {
-      router.replace("/splash/SplashOne");
+    if (navigationState?.key) {
+      init();
     }
-  }, [hasSeenSplash]);
+  }, [navigationState?.key]); // Wait until navigation tree is ready
 
-  // ✅ Trigger clearSplashFlag if needed (Call this manually when required)
-  useEffect(() => {
-    clearSplashFlag(); // This will clear the storage every time the app starts
-  }, []);
-
-  // Ensure no premature navigation
-  if (hasSeenSplash === null) return null;
+  if (isLoading) return null; // Avoid rendering during initialization
 
   return <Slot />;
 }

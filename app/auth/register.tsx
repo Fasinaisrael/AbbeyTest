@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 import { registerUser } from "@/utils/mock";
 import AuthScreen from "@/components/AuthScreen";
 
+
 export default function RegisterScreen() {
   const router = useRouter();
 

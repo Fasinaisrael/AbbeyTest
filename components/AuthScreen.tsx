@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Text,
 } from "react-native";
 import { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
@@ -30,7 +31,10 @@ interface AuthScreenProps {
   submitLabel: string;
   showLogin?: boolean;
   showRegister?: boolean;
+  showForgotPassword?: boolean;
 }
+
+
 
 export default function AuthScreen({
   title,
@@ -48,7 +52,11 @@ export default function AuthScreen({
   submitLabel,
   showLogin = false,
   showRegister = false,
+  showForgotPassword = false,
 }: AuthScreenProps) {
+
+
+  
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [confirmShowPassword, setConfirmShowPassword] =
     useState<boolean>(false);
@@ -150,6 +158,14 @@ export default function AuthScreen({
               </TouchableOpacity>
             </ThemedView>
           )}
+          {showForgotPassword && (
+            <TouchableOpacity
+              style={styles.forgotPassword}
+              onPress={() => router.replace("/auth/forgotPassword")}
+            >
+              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            </TouchableOpacity>
+          )}
 
           <Button title={submitLabel} onPress={onSubmit} color="#002668" />
 
@@ -165,6 +181,7 @@ export default function AuthScreen({
               />
             </ThemedView>
           )}
+
           {showRegister && (
             <ThemedView style={styles.loginContainer}>
               <ThemedText style={styles.loginText}>
@@ -237,5 +254,18 @@ const styles = StyleSheet.create({
   loginText: {
     marginBottom: 0,
     color: "red",
+  },
+  forgotPassword: {
+    alignSelf: "flex-end",
+    marginRight: 30,
+    marginTop: 10,
+    marginBottom: 20,
+    marginLeft: 10,
+    backgroundColor: "none",
+  },
+  forgotPasswordText: {
+    fontSize: 16,
+    color: "#000",
+    textDecorationLine: "underline",
   },
 });

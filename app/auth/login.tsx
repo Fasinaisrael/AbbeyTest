@@ -82,13 +82,8 @@ export default function LoginScreen() {
         setPassword={setPassword}
         submitLabel="Login"
         showRegister
+        showForgotPassword
       />
-      <TouchableOpacity
-        style={styles.forgotPassword}
-        onPress={() => router.replace("/auth/forgotPassword")}
-      >
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
 
       {/* Blurry Full-Screen Loader */}
       <Modal transparent={true} animationType="fade" visible={loading}>
@@ -145,15 +140,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: "#002668",
-  },
-  forgotPassword: {
-    alignSelf: "flex-end",
-    marginRight: 30,
-    marginTop: 10,
-  },
-  forgotPasswordText: {
-    fontSize: 14,
-    color: "#000",
-    textDecorationLine: "underline",
   },
 });

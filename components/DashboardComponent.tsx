@@ -77,11 +77,11 @@ const DashboardComponent = ({ username }: DashboardComponentProps) => {
               // User Info View
               <>
                 <Text style={styles.modalText}>Username: {username}</Text>
-                
+
                 <Button
                   title="Logout"
                   onPress={() => setShowLogoutConfirmation(true)}
-                  color="#002668"
+                  color="red"
                 />
               </>
             )}
