@@ -1,43 +1,42 @@
-// app/_layout.tsx
-import { Slot, useRouter, useRootNavigationState } from "expo-router";
+import { Slot, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { account } from "@/utils/appwrite";
 
 export default function RootLayout() {
   const router = useRouter();
-  const navigationState = useRootNavigationState(); // Ensures navigation tree is ready
-  const [isLoading, setIsLoading] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const init = async () => {
       try {
-        // Clear session and reset splash flag
-        // await account.deleteSession("current");
+        console.log("🚀 Initializing the app...");
+
+        // Reset launch flag for testing (remove this later if needed)
         await AsyncStorage.setItem("hasLaunched", "false");
 
-        // Check splash status after clearing session
         const hasLaunched = await AsyncStorage.getItem("hasLaunched");
-        console.log("hasLaunched value:", hasLaunched);
+        console.log("🔍 Retrieved hasLaunched value:", hasLaunched);
 
-        // Navigate to splash screen if needed
         if (hasLaunched !== "true") {
-          console.log("object")
-          router.replace("/splash/SplashOne");
+          console.log("✅ Navigating to SplashOne...");
+          // Delay navigation until Slot is mounted
+          setTimeout(() => router.replace("/splash/SplashOne"), 0);
+        } else {
+          console.log("🔑 Navigating to Login...");
+          setTimeout(() => router.replace("/auth/login"), 0);
         }
       } catch (error) {
-        console.error("Error during initialization:", error);
+        console.error("❌ Error during initialization:", error);
       } finally {
-        setIsLoading(false);
+        setIsReady(true); // Ensure Slot is rendered
       }
     };
 
-    if (navigationState?.key) {
-      init();
-    }
-  }, [navigationState?.key]); // Wait until navigation tree is ready
+    init();
+  }, []);
 
-  if (isLoading) return null; // Avoid rendering during initialization
+  // Ensure nothing renders until navigation is ready
+  if (!isReady) return null;
 
   return <Slot />;
 }

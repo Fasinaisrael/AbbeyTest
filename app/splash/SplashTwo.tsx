@@ -1,5 +1,6 @@
 import { View, Text, Button, StyleSheet, Image } from "react-native";
 import { useRouter } from "expo-router";
+import * as Animatable from "react-native-animatable";
 
 export default function SplashOne() {
   const router = useRouter();
@@ -10,18 +11,29 @@ export default function SplashOne() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <Image
-          // source={require('@/assets/images/splash1.png')} // Ensure image exists
-          style={styles.image}
-          resizeMode="contain"
-        />
-        <Text style={styles.title}>Splash Screen Two</Text>
-        <Text style={styles.description}>
-          Discover amazing features and enjoy a seamless experience with our
-          app.
-        </Text>
-      </View>
+      <Animatable.Image
+        animation="bounceIn"
+        duration={1500}
+        source={require("@/assets/images/AbbeyMortgageLogo.png")}
+        style={styles.image}
+        resizeMode="contain"
+      />
+
+      <Animatable.Text
+        animation="slideInLeft"
+        duration={1000}
+        style={styles.title}
+      >
+        Splash Screen Two
+      </Animatable.Text>
+      <Animatable.Text
+        animation="slideInLeft"
+        duration={1000}
+        style={styles.description}
+      >
+        Discover amazing features and enjoy a seamless experience with our app.
+      </Animatable.Text>
+
       <View style={styles.buttonContainer}>
         <Button
           title="Previous"
@@ -37,11 +49,10 @@ export default function SplashOne() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    paddingHorizontal: 20,
-    paddingVertical: 40,
+    paddingHorizontal: 0,
   },
   content: {
     justifyContent: "center",
