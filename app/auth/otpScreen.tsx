@@ -19,7 +19,7 @@ export default function OTPScreen() {
       const isValid = await requestOTP(otp);
       if (isValid) {
         Alert.alert('Success', 'OTP verified!');
-        router.replace('/auth/reset-password');
+        router.replace('/auth/login');
       } else {
         Alert.alert('Error', 'Invalid OTP');
       }

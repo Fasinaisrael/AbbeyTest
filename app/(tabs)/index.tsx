@@ -18,10 +18,15 @@ import { ThemedView } from "@/components/ThemedView";
 
 export default function EntryScreen() {
   const router = useRouter();
+
+  // State for user inputs
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
+  // Check user session status
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
@@ -44,14 +49,15 @@ export default function EntryScreen() {
     checkAuthStatus();
   }, [router]);
 
+  // Register a new user
   const handleRegister = async () => {
-    if (!username || !password) {
-      Alert.alert("Error", "Please enter both username and password");
+    if (!firstName || !lastName || !username || !password) {
+      Alert.alert("Error", "Please fill in all fields");
       return;
     }
 
     try {
-      const success = await registerUser(username, password);
+      const success = await registerUser(firstName, lastName, username, password);
       if (success) {
         Alert.alert("Success", "Registration successful! Please login.");
         router.replace("/");
@@ -77,6 +83,23 @@ export default function EntryScreen() {
       <ThemedView style={styles.container}>
         <ThemedText type="title">Register</ThemedText>
 
+        {/* First Name */}
+        <TextInput
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+          style={styles.input}
+        />
+
+        {/* Last Name */}
+        <TextInput
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+          style={styles.input}
+        />
+
+        {/* Username */}
         <TextInput
           placeholder="Username"
           value={username}
@@ -84,6 +107,7 @@ export default function EntryScreen() {
           style={styles.input}
         />
 
+        {/* Password */}
         <ThemedView style={styles.passwordContainer}>
           <TextInput
             placeholder="Password"
@@ -101,6 +125,7 @@ export default function EntryScreen() {
           </TouchableOpacity>
         </ThemedView>
 
+        {/* Register Button */}
         <Button title="Register" onPress={handleRegister} color="#4CAF50" />
       </ThemedView>
     </ParallaxScrollView>
