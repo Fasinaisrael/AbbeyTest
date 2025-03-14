@@ -12,7 +12,6 @@ import { useRouter } from "expo-router";
 import { registerUser } from "@/utils/mock";
 import AuthScreen from "@/components/AuthScreen";
 
-
 export default function RegisterScreen() {
   const router = useRouter();
 
@@ -80,7 +79,7 @@ export default function RegisterScreen() {
         <View style={styles.loaderOverlay}>
           <View style={styles.loaderContent}>
             <ActivityIndicator size="large" color="#ffffff" />
-            <Text style={styles.loadingText}>Logging in...</Text>
+            <Text style={styles.loadingText}>Signing in...</Text>
           </View>
         </View>
       </Modal>
