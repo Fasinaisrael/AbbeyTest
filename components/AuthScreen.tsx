@@ -14,6 +14,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useRouter } from "expo-router";
+import googleSignIn from "@/utils/socialAuth";
 
 interface AuthScreenProps {
   title: string;
@@ -32,9 +33,8 @@ interface AuthScreenProps {
   showLogin?: boolean;
   showRegister?: boolean;
   showForgotPassword?: boolean;
+  showSocialButtons?: boolean;
 }
-
-
 
 export default function AuthScreen({
   title,
@@ -53,10 +53,8 @@ export default function AuthScreen({
   showLogin = false,
   showRegister = false,
   showForgotPassword = false,
+  showSocialButtons = false,
 }: AuthScreenProps) {
-
-
-  
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [confirmShowPassword, setConfirmShowPassword] =
     useState<boolean>(false);
@@ -194,6 +192,22 @@ export default function AuthScreen({
               />
             </ThemedView>
           )}
+          {showSocialButtons && (
+            <ThemedView style={styles.socialContainer}>
+              <TouchableOpacity
+                onPress={googleSignIn}
+                style={styles.socialButton}
+              >
+                <Ionicons name="logo-google" size={24} color="#EA4335" />
+                <Text style={styles.socialText}>Sign in with Google</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.socialButton}>
+                <Ionicons name="logo-facebook" size={24} color="#4267B2" />
+                <Text style={styles.socialText}>Sign in with Facebook</Text>
+              </TouchableOpacity>
+            </ThemedView>
+          )}
         </ThemedView>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -267,5 +281,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
     textDecorationLine: "underline",
+  },
+  socialContainer: {
+    marginTop: 20,
+    width: "100%",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  socialButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    marginVertical: 5,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: "#002668",
+    width: 250,
+  },
+  socialText: {
+    marginLeft: 10,
+    color: "#002668",
+    fontSize: 16,
   },
 });

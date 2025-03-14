@@ -74,12 +74,13 @@ export default function RegisterScreen() {
         setConfirmPassword={setConfirmPassword}
         submitLabel="Register"
         showLogin
+        showSocialButtons
       />
       <Modal transparent={true} animationType="fade" visible={loading}>
         <View style={styles.loaderOverlay}>
           <View style={styles.loaderContent}>
             <ActivityIndicator size="large" color="#ffffff" />
-            <Text style={styles.loadingText}>Signing in...</Text>
+            <Text style={styles.loadingText}>Signing up...</Text>
           </View>
         </View>
       </Modal>
